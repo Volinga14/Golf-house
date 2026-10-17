@@ -1,0 +1,10 @@
+import {DatabaseSync}from'node:sqlite';import{resolve,join}from'node:path';import{randomBytes,scryptSync}from'node:crypto';import{createInterface}from'node:readline/promises';
+const input=createInterface({input:process.stdin,output:process.stdout});
+console.log('Ejecuta esta herramienta solo en el servidor de tu liga. La contraseña escrita será visible en esta consola.');
+const email=(await input.question('Email del administrador: ')).trim().toLowerCase();
+const password=await input.question('Nueva contraseña (10–128 caracteres): ');input.close();
+if(password.length<10||password.length>128)throw Error('Longitud no válida.');
+const db=new DatabaseSync(join(resolve(process.env.DATA_DIR||'data'),'clubhouse.sqlite'));
+const user=db.prepare('SELECT id,data FROM users WHERE email=?').get(email);if(!user||JSON.parse(user.data).role!=='admin')throw Error('Administrador no encontrado.');
+const salt=randomBytes(16).toString('hex'),encoded=salt+':'+scryptSync(password,salt,64).toString('hex');
+db.prepare('UPDATE users SET password=? WHERE id=?').run(encoded,user.id);db.prepare('DELETE FROM sessions WHERE userId=?').run(user.id);db.close();console.log('Contraseña restablecida. Vuelve a iniciar sesión.');

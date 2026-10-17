@@ -1,0 +1,10 @@
+import {DatabaseSync,backup} from 'node:sqlite';
+import {mkdir,cp,writeFile} from 'node:fs/promises';
+import {resolve,join} from 'node:path';
+const source=resolve(process.env.DATA_DIR||'data'),target=resolve(process.argv[2]||join('backups',new Date().toISOString().replace(/[:.]/g,'-')));
+await mkdir(target,{recursive:true});
+const db=new DatabaseSync(join(source,'clubhouse.sqlite'));
+await backup(db,join(target,'clubhouse.sqlite'));db.close();
+await cp(join(source,'uploads'),join(target,'uploads'),{recursive:true});
+await writeFile(join(target,'LEEME.txt'),'Copia de Clubhouse: base SQLite y multimedia. Para restaurar, detén el servidor y sustituye DATA_DIR por esta carpeta. Nunca mezcles archivos WAL de otra copia. Conserva también tu archivo .env aparte.\n');
+console.log('Copia completa creada en: '+target);

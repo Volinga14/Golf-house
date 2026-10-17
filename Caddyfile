@@ -1,0 +1,7 @@
+{$DOMAIN} {
+  @assets not path /api/events
+  encode @assets zstd gzip
+  reverse_proxy app:3000 {
+    flush_interval -1
+  }
+}

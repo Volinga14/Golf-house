@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      DATA_DIR: /app/data
+      PUBLIC_URL: https://${DOMAIN:?Indica DOMAIN en .env}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-}
+      MEDIA_QUOTA_MB: ${MEDIA_QUOTA_MB:-2048}
+      SETUP_TOKEN: ${SETUP_TOKEN:-}
+    volumes:
+      - clubhouse_data:/app/data
+    expose:
+      - '3000'
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  clubhouse_data:
+  caddy_data:
+  caddy_config:

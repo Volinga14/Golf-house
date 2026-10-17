@@ -1,0 +1,11 @@
+import {cp, mkdir, rm, writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {join} from 'node:path';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const destination=join(root,'site');
+await rm(destination,{recursive:true,force:true});
+await mkdir(destination,{recursive:true});
+await cp(join(root,'public'),destination,{recursive:true});
+await writeFile(join(destination,'config.js'),'// GitHub Pages preview. No accounts or shared server data.\nwindow.CLUBHOUSE_STATIC = true;\n');
+await writeFile(join(destination,'.nojekyll'),'');
+console.log('Static preview ready in site/ (supports any repository subpath).');
