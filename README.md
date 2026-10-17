@@ -1,5 +1,7 @@
 # Clubhouse ⛳
 
+**[Abrir la demo publicada](https://volinga14.github.io/Golf-house/)** · Vista previa local; no comparte cuentas ni resultados entre dispositivos.
+
 Una liga privada para 30 amigos y 12 jornadas. Interfaz pensada para el móvil: **Inicio · Jugar · Liga · Club**.
 
 ## Probar desde cero

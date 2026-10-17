@@ -7,12 +7,11 @@
 - La bienvenida puede repetirse sin borrar las vueltas de prueba.
 - Generación de demo autónoma y build estático de Pages con rutas relativas.
 - Código subido a `https://github.com/Volinga14/Golf-house`, rama `main`.
-- Pruebas y build verificados también en GitHub Actions. El primer despliegue se detiene en `actions/configure-pages` porque Pages aún no está habilitado.
+- Pruebas, build y despliegue verificados en GitHub Actions. Demo publicada en `https://volinga14.github.io/Golf-house/`.
+- Revisión visual realizada en navegador de escritorio sobre la web publicada: bienvenida, perfil, explicación de la liga, inicio y preparación de vuelta. Comprobado el guardado de golpes y el avance al siguiente hoyo.
 
 ## Pendiente
 
-- Activar Pages en `Settings → Pages → Source → GitHub Actions` y volver a lanzar el workflow `Preview on GitHub Pages`.
-- Revisión visual en navegador real: el navegador de pruebas no está instalado en este entorno y su descarga no ha podido completarse. Las comprobaciones DOM no sustituyen una revisión visual.
 - Pruebas físicas iPhone/Android de instalación PWA, cámara, vídeo, recuperación de cobertura y Web Push.
 - Alojamiento del servidor real con HTTPS y disco persistente antes de usar la liga entre los 30 móviles.
 
