@@ -1,3 +1,19 @@
+## Interfaz v3 — octubre de 2026
+
+Nueva base de experiencia inspirada en los patrones de Golf GameBook: superficies blancas, verde para acciones principales, navegación compacta y puntuación centrada en un hoyo.
+
+- Inicio: amigos en el campo, actividad filtrable y acceso directo a jugar o retomar la vuelta.
+- Mi liga: clasificación mensual y de temporada, con detalle por jugador.
+- Jugar: preparación guiada, historial y tarjeta de un hoyo. Selector de los 18 hoyos y tarjeta completa desplegables.
+- Club: se conservan el chat general, conversaciones por partida y adjuntos.
+- Bienvenida: pantalla de app breve, perfil y entrada a la liga de ejemplo. «Ver bienvenida» permite recorrerla de nuevo sin borrar las tarjetas.
+
+GitHub Pages sigue siendo una **demo local**. El rediseño no activa cuentas compartidas ni notificaciones push entre dispositivos: siguen requiriendo desplegar el servidor incluido.
+
+Validación: nueve pruebas del servidor/cálculo; recorrido DOM desde la primera apertura; vuelta completa, envío al marcador y validación; generación de Pages y demo autónoma. Referencia visual consultada: https://www.golfgamebook.com/ (tarjeta, clasificación y seguimiento de amigos). No se reutilizan su marca ni sus recursos gráficos.
+
+---
+
 # Clubhouse ⛳
 
 **[Abrir la demo publicada](https://volinga14.github.io/Golf-house/)** · Vista previa local; no comparte cuentas ni resultados entre dispositivos.
