@@ -162,7 +162,7 @@ button:disabled{opacity:.38;cursor:default}
 .hole-focus{padding:26px 26px 20px}
 .hole-kicker{font-size:9px;letter-spacing:1.5px;color:#9aa59d}
 .hole-heading{display:flex;align-items:center;justify-content:space-between;margin:9px 0 20px}
-.hole-heading h2{font-size:34px;line-height:1.2;margin:0;font-weight:700;letter-spacing:-.8px}
+.hole-heading h2{font-family:inherit;font-size:34px;line-height:1.2;margin:0;font-weight:700;letter-spacing:-.8px}
 .hole-heading>.icon-btn{background:#f5f7f5;width:38px;height:38px;min-height:38px}
 .hole-tags{font-size:10px;gap:14px;color:#819087}
 .hole-tags b{color:#4f6256}
@@ -447,7 +447,7 @@ label{font-size:12px}
 .hole-btn{height:40px;min-height:40px;font-size:10px}
 .hole-focus{padding:23px 18px 17px}
 .hole-heading{margin:8px 0 17px}
-.hole-heading h2{font-size:31px}
+.hole-heading h2{font-family:inherit;font-size:31px}
 .hole-tags{font-size:9px;gap:12px}
 .stroke-control{margin:25px 0 16px;gap:28px}
 .stroke-value{font-size:80px;min-width:80px}
@@ -478,7 +478,7 @@ label{font-size:12px}
 .composer{padding:9px;gap:5px}
 .composer .icon-btn{width:33px;min-width:33px;height:42px;min-height:42px}
 .message{max-width:96%}
-.calendar-grid{grid-template-columns:1fr 1fr}
+.calendar-grid{grid-template-columns:1fr 1fr}.month-card .month-num{font-family:inherit}
 .people-grid,.course-grid,.profile-grid,.settings-grid{grid-template-columns:1fr}
 .profile-summary{display:block}
 .welcome-v3>header{padding:24px}

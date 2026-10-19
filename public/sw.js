@@ -1,7 +1,7 @@
 /* Scoped to the installation path: works at / and /repository-name/. */
 const BASE=new URL('./',self.location.href);
-const CACHE='clubhouse-v3.0.1-'+BASE.pathname;
-const FILES=['','index.html','styles.css','refresh.css','gamebook.css?v=3.0.1','config.js','scoring.js','demo.js','app.js?v=3.0.1','manifest.webmanifest','assets/icon.svg','assets/icon-192.png','assets/icon-512.png','assets/course.svg'].map(p=>new URL(p,BASE).href);
+const CACHE='clubhouse-v3.0.2-'+BASE.pathname;
+const FILES=['','index.html','styles.css','refresh.css','gamebook.css?v=3.0.2','config.js','scoring.js','demo.js','app.js?v=3.0.1','manifest.webmanifest','assets/icon.svg','assets/icon-192.png','assets/icon-512.png','assets/course.svg'].map(p=>new URL(p,BASE).href);
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('clubhouse-')&&k.endsWith(BASE.pathname)&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
