@@ -29,3 +29,11 @@ Hay tarjetas contradictorias publicadas. Amarillas: referencia 5.963 m; azules: 
 
 ## Validación
 `npm test` incluye integridad de datos, reparto de golpes para HJ −10 a 72, Stableford, rayas, datos incompletos, reapertura y flujo de 18 hoyos con un DOM simulado. Comprueba sintaxis del frontend y worker. Esta comprobación no sustituye una prueba real en Safari/Android de instalación, imágenes y modo avión. No hay entorno de navegador disponible en la sesión de implementación.
+
+
+## Actualización 1.1.0: imágenes y greenes
+Visor de pantalla completa con ajuste inicial de toda la lámina, botones +/−, arrastre, rueda, doble toque/clic, zoom mediante dos punteros, teclado y salida con Escape. El foco y la posición de la página se recuperan al cerrar. Ver green abre la misma lámina centrada en el sector dibujado; Ver completa vuelve al encuadre inicial.
+
+Cada hoyo incluye fondo de referencia del esquema del libro oficial (18–28 m), una observación breve documentada y un consejo propio separado. No son distancias a bandera ni datos de velocidad o estado actual. En 9/18 se aclara que la cota corresponde al sector dibujado del green compartido. La tendencia del putt del 9 procede del artículo federativo; no se inventan caídas detalladas para los demás.
+
+Caché y URLs de recursos actualizadas a 1.1.0 para evitar mezclar interfaz anterior y visor nuevo; almacenamiento de vueltas conservado. Nuevas pruebas de geometría del visor en tamaños de pantalla móvil y horizontal, zoom de dos punteros, desplazamiento y presencia de datos de green en los 18 hoyos.
