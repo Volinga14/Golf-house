@@ -26,3 +26,11 @@ test('Terrain: both modes, relief disclosure, offline assets and 2D fallback are
  assert.match(html,/caídas de putt/);assert.match(html,/CC BY 4.0/);assert.match(html,/×1 · real/);
  const jpeg=await readFile(new URL('terrain-assets/hole1-ortho.jpg',base));assert.equal(jpeg[0],255);assert.equal(jpeg[1],216);
 });
+
+test('Round companion: stored plans reject invalid values and all three camera presets target the real sector',()=>{
+ const empty=T.cleanPlan(null);assert.equal(empty.phase,0);assert.equal(empty.club,'');
+ const bad=T.cleanPlan({phase:10,club:'fake club',aim:'x'.repeat(200),review:'maybe'});assert.equal(bad.phase,0);assert.equal(bad.club,'');assert.equal(bad.aim.length,120);assert.equal(bad.review,'');
+ const good=T.cleanPlan({phase:2,club:'Madera 3',aim:'Árbol',review:'yes'});assert.equal(good.phase,2);assert.equal(good.review,'yes');
+ for(let phase=0;phase<3;phase++){const p=T.preset(phase,d);assert.ok(p.pan.every(Number.isFinite));assert.ok(Math.abs(p.pan[0])<d.width/2);assert.ok(Math.abs(p.pan[1])<d.depth/2);assert.ok(p.zoom>=1&&p.zoom<=3);}
+ assert.ok(T.preset(2,d).zoom>T.preset(0,d).zoom);
+});

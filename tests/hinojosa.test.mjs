@@ -48,15 +48,15 @@ test('Hinojosa: app and service worker parse; offline cache stays in separate sc
 });
 function browser(stored){
  const ids=new Map(),groups=new Map(),events=new Map(),memory=new Map(stored?Object.entries(stored):[]);
- let html='';
- function el(id){if(!ids.has(id))ids.set(id,{style:{},value:'',textContent:'',dataset:{},complete:false,scrollTop:0,showModal(){},close(){},remove(){},click(){this.onclick?.();}});return ids.get(id);}
+ let html='',terrainOptions;const terrainOpens=[];
+ function el(id){if(!ids.has(id))ids.set(id,{style:{},value:'',textContent:'',dataset:{},complete:false,scrollTop:0,showModal(){},close(){},remove(){},click(){this.onclick?.();},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;}});return ids.get(id);}
  const app=el('app');
  Object.defineProperty(app,'innerHTML',{get(){return html;},set(s){html=s;groups.clear();for(const m of s.matchAll(/<([a-z]+)\b([^>]*)>/g)){const attrs=m[2],id=attrs.match(/\bid="([^"]+)"/)?.[1];const o=id?el(id):{style:{},dataset:{}};o.value=attrs.match(/\bvalue="([^"]*)"/)?.[1]||o.value||'';for(const a of attrs.matchAll(/\bdata-([\w-]+)="([^"]*)"/g)){o.dataset[a[1]]=a[2];const key='[data-'+a[1]+']';if(!groups.has(key))groups.set(key,[]);groups.get(key).push(o);}}}});
- const w={HinojosaViewer:{create:()=>({open(){},close(){}})},HinojosaTerrain:{create:()=>({open(){}})},scrollY:0,scrollTo(){},addEventListener:(n,fn)=>events.set(n,fn)};
+ const w={HinojosaViewer:{create:()=>({open(){},close(){}})},HinojosaTerrain:{create:(doc,options)=>{terrainOptions=options;return{open(value){terrainOpens.push(value);}};}},scrollY:0,scrollTo(){},addEventListener:(n,fn)=>events.set(n,fn)};
  const document={getElementById:el,querySelectorAll:s=>groups.get(s)||[],createElement:()=>({click(){},remove(){}}),body:{appendChild(){}}};
- const sandbox={window:w,document,location:{hash:""},navigator:{onLine:true},localStorage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},setTimeout:()=>1,clearTimeout(){},confirm:()=>true,console,Blob,URL,Image:class{}};
+ const sandbox={window:w,document,location:{hash:""},navigator:{onLine:true},localStorage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},requestAnimationFrame:fn=>fn(),setTimeout:()=>1,clearTimeout(){},confirm:()=>true,console,Blob,URL,Image:class{}};
  vm.createContext(sandbox);vm.runInContext(modelCode,sandbox);vm.runInContext(courseCode,sandbox);vm.runInContext(appCode,sandbox);
- return {ids,groups,memory,get html(){return html;}};
+ return {ids,groups,memory,terrainOpens,get terrainOptions(){return terrainOptions;},get html(){return html;}};
 }
 test('Hinojosa: first opening, setup, save 18 holes, reload, notes and draft persistence',()=>{
  const b=browser();assert.match(b.html,/Tu vuelta en/);
@@ -102,4 +102,17 @@ test('Green guide: every hole has sourced data, bounded image focus and separate
  for(const h of C.holes){assert.ok(h.green);assert.ok(h.green.depth>=18&&h.green.depth<=28);assert.ok(C.source[h.green.source]);assert.ok(h.green.description&&h.green.advice);for(const v of Object.values(h.green.focus))assert.ok(v>0&&v<1);}
  const b=browser();assert.match(b.html,/El green del 1/);assert.match(b.html,/21/);assert.match(b.html,/Consejo práctico de Clubhouse/);
  b.groups.get('[data-hole]').find(e=>e.dataset.hole==='8').onclick();assert.match(b.html,/Green compartido con el 18/);
+});
+
+test('Round companion: bars, private plan, reload and score shortcut stay within the existing round',()=>{
+ const b=browser();b.ids.get('openTerrain').onclick();
+ assert.equal(b.terrainOpens.at(-1).round,true);assert.equal(b.terrainOpens.at(-1).meters,C.tees.yellow.meters[0]);
+ const plan={phase:2,club:'Madera 3',aim:'Árbol de la derecha',review:'yes'};
+ assert.equal(b.terrainOptions.onPlanChange(plan),true);
+ const loaded=browser(Object.fromEntries(b.memory));loaded.ids.get('openTerrain').onclick();
+ assert.equal(loaded.terrainOpens.at(-1).plan.aim,plan.aim);assert.equal(loaded.terrainOpens.at(-1).plan.phase,2);
+ loaded.terrainOptions.onScore();assert.equal(loaded.ids.get('scorePanel').scrolled,true);assert.equal(loaded.ids.get('scorePanel').focused,true);
+ assert.equal(JSON.parse(loaded.memory.get('clubhouse-hinojosa-v1')).scores[0],null);
+ loaded.groups.get('[data-view]').find(e=>e.dataset.view==='setup').onclick();loaded.ids.get('newRound').onclick();
+ const fresh=JSON.parse(loaded.memory.get('clubhouse-hinojosa-v1'));assert.deepEqual(fresh.fieldPlans,{});assert.equal(fresh.history.at(-1).fieldPlans[0].club,'Madera 3');
 });
