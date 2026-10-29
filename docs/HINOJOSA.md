@@ -37,3 +37,16 @@ Visor de pantalla completa con ajuste inicial de toda la lámina, botones +/−,
 Cada hoyo incluye fondo de referencia del esquema del libro oficial (18–28 m), una observación breve documentada y un consejo propio separado. No son distancias a bandera ni datos de velocidad o estado actual. En 9/18 se aclara que la cota corresponde al sector dibujado del green compartido. La tendencia del putt del 9 procede del artículo federativo; no se inventan caídas detalladas para los demás.
 
 Caché y URLs de recursos actualizadas a 1.1.0 para evitar mezclar interfaz anterior y visor nuevo; almacenamiento de vueltas conservado. Nuevas pruebas de geometría del visor en tamaños de pantalla móvil y horizontal, zoom de dos punteros, desplazamiento y presencia de datos de green en los 18 hoyos.
+
+## Actualización 1.2.0: mapa de planificación
+El botón Mapa de distancias abre un planificador en pantalla completa con una ortofoto georreferenciada PNOA del IGN, incluida localmente (aproximadamente 1 MB). No depende de teselas remotas para funcionar una vez guardada la PWA.
+
+En esta versión, no hay referencias verificadas de los 18 tees y centros de green. El usuario sitúa ambos puntos sobre la ortofoto la primera vez y puede arrastrarlos. Las referencias y rutas se guardan por hoyo y barras, con la clave independiente clubhouse-hinojosa-plans-v1. No se asignan coordenadas automáticas inventadas. El GPS opcional permite colocar el tee si el usuario está físicamente en él; nunca se solicita sin pulsar su botón ni se envía a servidor.
+
+Rutas A/B de 2 o 3 tramos, puntos arrastrables, colocación con toque, deslizador de alcance 20–400 m, etiquetas de cada tramo, total de ruta, distancia directa y anillos geodésicos de 100/150/200/250 m desde tee. Distancias horizontales mediante Haversine (radio medio terrestre 6371008,8 m), sin viento/desnivel ni predicción de vuelo/rodada; dependen de la calidad de las referencias manuales. Exportación JSON de los planes.
+
+Ortofoto descargada el 29/10/2026 desde el servicio oficial WMS PNOA MA, capa OI.OrthoimageCoverage, CRS EPSG:3857. Bounds WGS84: latitud 40.4599–40.4721, longitud −3.6132 a −3.5938. Solicitud de imagen de 3840 píxeles de ancho, con altura ajustada a la extensión proyectada. Distribución reducida proporcionalmente a 2560 píxeles (misma extensión, sin deformar la escala). Fecha de consulta distinta de fecha de vuelo: no se presenta como imagen en directo.
+
+Datos de imagen bajo CC BY 4.0, atribución visible IGN / Comunidad de Madrid. Fuente y solicitud exacta: public/hinojosa/map-data.js. Licencia IGN: https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf. Leaflet 1.9.4 se incluye con su licencia BSD en vendor/LEAFLET-LICENSE.txt. No se reutilizan vectores privados de otras apps ni referencias incompletas encontradas durante la investigación.
+
+El worker 1.2.0 precarga el planificador, Leaflet y la ortofoto; conserva las láminas oficiales descargadas al actualizar desde la versión anterior. Las pruebas cubren distancias conocidas, inversión distancia/rumbo, suma de tramos, persistencia separada por hoyo/barras y activos offline. QA en navegador: selección de referencias, arrastre, deslizador, A/B y reapertura. Prueba táctil y precisión GPS pendientes en móvil físico.

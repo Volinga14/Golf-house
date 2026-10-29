@@ -52,7 +52,7 @@ function browser(stored){
  function el(id){if(!ids.has(id))ids.set(id,{style:{},value:'',textContent:'',dataset:{},complete:false,scrollTop:0,showModal(){},close(){},remove(){},click(){this.onclick?.();}});return ids.get(id);}
  const app=el('app');
  Object.defineProperty(app,'innerHTML',{get(){return html;},set(s){html=s;groups.clear();for(const m of s.matchAll(/<([a-z]+)\b([^>]*)>/g)){const attrs=m[2],id=attrs.match(/\bid="([^"]+)"/)?.[1];const o=id?el(id):{style:{},dataset:{}};o.value=attrs.match(/\bvalue="([^"]*)"/)?.[1]||o.value||'';for(const a of attrs.matchAll(/\bdata-([\w-]+)="([^"]*)"/g)){o.dataset[a[1]]=a[2];const key='[data-'+a[1]+']';if(!groups.has(key))groups.set(key,[]);groups.get(key).push(o);}}}});
- const w={HinojosaViewer:{create:()=>({open(){},close(){}})},scrollY:0,scrollTo(){},addEventListener:(n,fn)=>events.set(n,fn)};
+ const w={HinojosaViewer:{create:()=>({open(){},close(){}})},HinojosaPlanner:{create:()=>({open(){}})},scrollY:0,scrollTo(){},addEventListener:(n,fn)=>events.set(n,fn)};
  const document={getElementById:el,querySelectorAll:s=>groups.get(s)||[],createElement:()=>({click(){},remove(){}}),body:{appendChild(){}}};
  const sandbox={window:w,document,navigator:{onLine:true},localStorage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},setTimeout:()=>1,clearTimeout(){},confirm:()=>true,console,Blob,URL,Image:class{}};
  vm.createContext(sandbox);vm.runInContext(modelCode,sandbox);vm.runInContext(courseCode,sandbox);vm.runInContext(appCode,sandbox);
