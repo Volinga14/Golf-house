@@ -31,11 +31,7 @@ test('Planner: persistence rejects bad anchors and preserves independent A/B and
  assert.notEqual(p['1:yellow'].tee,null);assert.equal(p['2:yellow'].tee,null);assert.equal(p['1:red'].tee,null);
  assert.equal(s.compare,true);
 });
-test('Planner: frontend parses and all required map assets are prepared for offline use',async()=>{
- new vm.Script(await read('planner.js'));
- const sw=await read('sw.js'),html=await read('index.html');
- for(const path of ['planner.js','planner-math.js','map-data.js','map-assets/hinojosa-ortho.jpg','vendor/leaflet.js','vendor/leaflet.css'])assert.ok(sw.includes(path),path);
- assert.match(html,/id="planningMap"/);assert.match(html,/id="shotRange"/);assert.match(html,/id="setTee"/);assert.match(html,/id="setGreen"/);
- const raster=await readFile(new URL('map-assets/hinojosa-ortho.jpg',base));assert.equal(raster[0],255);assert.equal(raster[1],216);assert.ok(raster.length>500000);
- assert.match(D.attribution,/IGN/);assert.match(D.attribution,/CC BY 4.0/);
+test('Retired planner is not exposed or loaded in the application',async()=>{
+ const html=await read('index.html'),app=await read('app.js'),sw=await read('sw.js');
+ for(const source of [html,app,sw]){assert.doesNotMatch(source,/planner\.js|planningMap|openPlanner|shotRange/);}
 });

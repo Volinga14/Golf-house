@@ -1,6 +1,6 @@
 /* Independent service worker: never replaces Clubhouse's cache or stored rounds. */
-const CACHE='hinojosa-v1.2.0-'+self.registration.scope;
-const CORE=['./','index.html','style.css?v=1.2.0','course.js?v=1.2.0','model.js?v=1','vendor/leaflet.js?v=1.9.4','vendor/leaflet.css?v=1.9.4','map-data.js?v=1.2.0','planner-math.js?v=1.2.0','planner.js?v=1.2.0','map-assets/hinojosa-ortho.jpg','viewer.js?v=1.2.0','app.js?v=1.2.0','manifest.webmanifest','icon.svg','../assets/icon-192.png','../assets/icon-512.png'].map(p=>new URL(p,self.location.href).href);
+const CACHE='hinojosa-v1.3.0-'+self.registration.scope;
+const CORE=['./','index.html','style.css?v=1.3.0','course.js?v=1.3.0','model.js?v=1','viewer.js?v=1.3.0','terrain.js?v=1.3.0','terrain-assets/hole1-elevation.json','terrain-assets/hole1-ortho.jpg','app.js?v=1.3.0','manifest.webmanifest','icon.svg','../assets/icon-192.png','../assets/icon-512.png'].map(p=>new URL(p,self.location.href).href);
 const validImage=url=>/^https:\/\/olivar\.golf\/wp-content\/uploads\/2016\/(?:02|04)\/Campo-de-Golf-Olivar-de-la-Hinojosa-Campo-de-las-Naciones-Hoyo-(?:[1-9]|1[0-8])-by-PerfectPixel-Publicidad\.jpg$/.test(url);
 async function core(){const c=await caches.open(CACHE);await c.addAll(CORE);}
 self.addEventListener('install',e=>e.waitUntil(core().then(()=>self.skipWaiting())));
